@@ -92,6 +92,7 @@ tasks.named("stageDocs") {
 samples {
     templates {
         javaAndroidApplication
+        structuringSoftwareProjects
         springBootWebApplication {
             target = "app"
         }
@@ -397,6 +398,15 @@ samples {
             category = "Using Credentials"
         }
 
+        structuringSoftwareProjects {
+            sampleDirectory = samplesRoot.dir("build-organization/structuring-software-projects")
+            description = "Structuring and software product project with Gradle"
+            category = "Build organization"
+            common {
+                from(templates.structuringSoftwareProjects)
+            }
+        }
+
         compositeBuildsBasics {
             sampleDirectory = samplesRoot.dir("build-organization/composite-builds/basic")
             description = "Defining and using a composite build"
@@ -458,7 +468,6 @@ tasks.named("docsTest") { task ->
     // 'integTest.samplesdir' is set to an absolute path by the 'org.gradle.samples' plugin
     systemProperties.clear()
 
-    // // TODO (donat) investigate ignored snippets
     filter {
         // workaround for https://github.com/gradle/dotcom/issues/5958
         failOnNoMatchingTests = false
@@ -474,6 +483,10 @@ tasks.named("docsTest") { task ->
         if (buildJvms.testJvm.get().javaVersion.java9Compatible) {
             excludeTestsMatching "org.gradle.docs.samples.*.building-groovy-*.sample"
         }
+        // Build Android only with Java 8
+        if (true /* TODO deprecation warning caused by Android Kotlin plugin */ || buildJvms.testJvm.get().javaVersion.java9Compatible) {
+            excludeTestsMatching "org.gradle.docs.samples.*.structuring-software-projects*android-app.sample"
+        }
         // Do not execute Java Module tests on JVM < 9
         if (!buildJvms.testJvm.get().javaVersion.java9Compatible) {
             excludeTestsMatching "org.gradle.docs.samples.*.java-modules-*.sample"
@@ -485,6 +498,7 @@ tasks.named("docsTest") { task ->
             excludeTestsMatching 'org.gradle.docs.samples.*.snippet-testing-jacoco-application_*_jacocoApp.sample'
         }
 
+        // TODO investigate ignored snippets
         excludeTestsMatching 'org.gradle.docs.samples.*.snippet-scala-cross-compilation_groovy_sanityCheck.sample' // There is no java executable in /Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin. Expression: executable.exists()
         excludeTestsMatching 'org.gradle.docs.samples.*.snippet-groovy-cross-compilation_*.sample'  // compilation error
         excludeTestsMatching 'org.gradle.docs.samples.*.snippet-java-cross-compilation_*.sample' // fails to find javadoc

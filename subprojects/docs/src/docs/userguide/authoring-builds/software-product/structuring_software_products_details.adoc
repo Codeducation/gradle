@@ -1,0 +1,28 @@
+Note: The following section should be rather short and link to further readings elsewhere in the docs:
+
+== Working with the software project
+
+- Executing tasks
+- Importing in IDE
+
+== Working with components in isolation
+
+- Treating a component as isolated build (note about the Gradlw wrapper)
+- Importing a component in isolation in the IDE
+
+== Publishing binary components
+
+- You can publish a component and simply exchange it
+- Mention build cache - i.e. performance should usually not be the only reason to publish to repo
+
+== Using multiple repositories
+
+- Moving to multi-repos
+- Use publishing
+- Require checkout of other repo
+- (Should we mention source dependencies here?)
+
+== Sharing repository and included build declarations
+
+- Repositories in settings (for plugins and components)
+- Settings plugins

@@ -1,0 +1,45 @@
+@startuml
+
+database "External Repository" {
+  [Spring Boot\nFramework] as SpringBoot
+  [Android\nFramework] as Android
+}
+
+package "Application Layer" {
+  [server-application]
+  [android-app]
+}
+
+package "Business Logic Layer" {
+  [user-component]
+  [admin-component]
+}
+
+package "Domain Model Layer" {
+  [domain-model] <-right- [state]
+}
+
+[server-application] -down-> [user-component]
+[server-application] -down-> [admin-component]
+[android-app] -down-> [user-component]
+
+[user-component] -down-> [domain-model]
+[user-component] -down-> [state]
+
+[admin-component] -down-> [domain-model]
+[admin-component] -down-> [state]
+
+[android-app] -down-> [SpringBoot]
+[server-application] -down-> [Android]
+
+folder {
+   [build-logic]
+}
+folder {
+   [platforms]
+}
+folder {
+    [aggregation]
+}
+
+@enduml
